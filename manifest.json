@@ -1,0 +1,22 @@
+{
+  "name": "Calculator Pro",
+  "short_name": "Calculator",
+  "description": "A fast, mobile-friendly calculator with scientific mode, history, memory and themes.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "display_override": [
+    "standalone"
+  ],
+  "orientation": "portrait",
+  "background_color": "#eef1f6",
+  "theme_color": "#5b6bf5",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

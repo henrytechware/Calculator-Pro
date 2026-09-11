@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Calculator Pro</title>
+<link rel="stylesheet" href="css/style.css">
+<meta name="theme-color" content="#5b6bf5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Calculator Pro">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+</head>
+<body>
+<div class="app" id="app" data-theme="light">
+  <div class="header">
+    <h1>Calculator</h1>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle dark or light theme" title="Toggle theme">🌙</button>
+      <button class="icon-btn" id="settingsBtn" aria-label="Open settings" title="Settings">⚙</button>
+      <button class="icon-btn" id="historyBtn" aria-label="Open calculation history" title="History">🕘</button>
+    </div>
+  </div>
+
+  <div class="subheader">
+    <div class="mode-switch" role="tablist" aria-label="Calculator mode">
+      <button id="basicModeBtn" class="active" role="tab" aria-selected="true">Basic</button>
+      <button id="sciModeBtn" role="tab" aria-selected="false">Scientific</button>
+    </div>
+    <button class="deg-rad-btn" id="degRadBtn" aria-label="Toggle degrees or radians">
+      <span class="on" id="degRadLabel">DEG</span>
+    </button>
+  </div>
+
+  <div class="display">
+    <div class="expr-row"><span class="expr" id="exprDisplay" aria-live="polite">&nbsp;</span></div>
+    <div class="result-row">
+      <span class="mem-indicator" id="memIndicator">M</span>
+      <span class="result" id="resultDisplay" aria-live="polite">0</span>
+    </div>
+  </div>
+
+  <div class="memory-row">
+    <button class="mem-btn" data-mem="mc" id="mcBtn" disabled aria-label="Memory clear">MC</button>
+    <button class="mem-btn" data-mem="mr" id="mrBtn" disabled aria-label="Memory recall">MR</button>
+    <button class="mem-btn" data-mem="mp" aria-label="Memory add">M+</button>
+    <button class="mem-btn" data-mem="mm" aria-label="Memory subtract">M-</button>
+    <button class="util-btn" id="copyBtn" aria-label="Copy result">Copy</button>
+  </div>
+
+  <div class="keys-wrap">
+    <div class="keys-sci" id="sciKeys">
+      <button class="btn func sci-small" data-func="sin">sin</button>
+      <button class="btn func sci-small" data-func="cos">cos</button>
+      <button class="btn func sci-small" data-func="tan">tan</button>
+      <button class="btn func sci-small" data-op="^">x^y</button>
+      <button class="btn func sci-small" data-func="sqrt">√</button>
+      <button class="btn func sci-small" data-func="asin">sin⁻¹</button>
+      <button class="btn func sci-small" data-func="acos">cos⁻¹</button>
+      <button class="btn func sci-small" data-func="atan">tan⁻¹</button>
+      <button class="btn func sci-small" data-action="square">x²</button>
+      <button class="btn func sci-small" data-action="reciprocal">1/x</button>
+      <button class="btn func sci-small" data-func="log">log</button>
+      <button class="btn func sci-small" data-func="ln">ln</button>
+      <button class="btn func sci-small" data-action="factorial">n!</button>
+      <button class="btn func sci-small" data-const="π">π</button>
+      <button class="btn func sci-small" data-const="e">e</button>
+      <button class="btn func sci-small" data-action="exp">EXP</button>
+      <button class="btn func sci-small" data-op="mod">mod</button>
+      <button class="btn func sci-small" data-func="abs">abs</button>
+      <button class="btn func sci-small" data-func="floor">floor</button>
+      <button class="btn func sci-small" data-func="ceil">ceil</button>
+    </div>
+
+    <div class="keys-main" id="mainKeys">
+      <button class="btn clear" data-action="clear" aria-label="All clear">AC</button>
+      <button class="btn op" data-paren="(" aria-label="open bracket">(</button>
+      <button class="btn op" data-paren=")" aria-label="close bracket">)</button>
+      <button class="btn clear" data-action="backspace" aria-label="backspace">⌫</button>
+      <button class="btn op" data-op="÷" aria-label="divide">÷</button>
+      <button class="btn num" data-digit="7">7</button>
+      <button class="btn num" data-digit="8">8</button>
+      <button class="btn num" data-digit="9">9</button>
+      <button class="btn op" data-op="×" aria-label="multiply">×</button>
+      <button class="btn op" data-action="percent" aria-label="percent">%</button>
+      <button class="btn num" data-digit="4">4</button>
+      <button class="btn num" data-digit="5">5</button>
+      <button class="btn num" data-digit="6">6</button>
+      <button class="btn op" data-op="-" aria-label="subtract">−</button>
+      <button class="btn op" data-action="negate" aria-label="plus or minus">±</button>
+      <button class="btn num" data-digit="1">1</button>
+      <button class="btn num" data-digit="2">2</button>
+      <button class="btn num" data-digit="3">3</button>
+      <button class="btn op" data-op="+" aria-label="add">+</button>
+      <button class="btn func sci-small" data-action="dot" aria-label="decimal point">.</button>
+      <button class="btn num zero" data-digit="0">0</button>
+      <button class="btn equals wide" data-action="equals" aria-label="equals">=</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="panel" id="historyPanel">
+  <div class="panel-header">
+    <h2>History</h2>
+    <button class="panel-close" id="closeHistory" aria-label="Close history">✕</button>
+  </div>
+  <input type="text" class="search-box" id="historySearch" placeholder="Search history...">
+  <div class="hist-actions"><button class="text-btn" id="clearHistoryBtn">Clear All</button></div>
+  <div class="hist-list" id="histList"></div>
+</div>
+
+<div class="panel" id="settingsPanel">
+  <div class="panel-header">
+    <h2>Settings</h2>
+    <button class="panel-close" id="closeSettings" aria-label="Close settings">✕</button>
+  </div>
+  <div class="setting-row">
+    <div><div class="setting-label">Dark Theme</div><div class="setting-sub">Switch between light and dark</div></div>
+    <label class="switch"><input type="checkbox" id="themeToggleSwitch"><span class="slider"></span></label>
+  </div>
+  <div class="setting-row">
+    <div><div class="setting-label">Angle Unit</div><div class="setting-sub">Used for trig functions</div></div>
+    <div class="seg-group" id="settingsDegRad">
+      <button class="active" data-val="DEG">DEG</button>
+      <button data-val="RAD">RAD</button>
+    </div>
+  </div>
+  <div class="setting-row">
+    <div><div class="setting-label">Thousands Separator</div><div class="setting-sub">Show 1,000 instead of 1000</div></div>
+    <label class="switch"><input type="checkbox" id="thousandsToggle" checked><span class="slider"></span></label>
+  </div>
+  <div class="setting-row">
+    <div><div class="setting-label">Clear All History</div><div class="setting-sub">Removes saved calculations</div></div>
+    <button class="text-btn" id="settingsClearHistory">Clear</button>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<script src="js/script.js"></script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register("./sw.js").catch(function (error) {
+      console.warn("Service worker registration failed:", error);
+    });
+  });
+}
+</script>
+</body>
+</html>
